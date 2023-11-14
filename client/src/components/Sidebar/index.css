@@ -1,0 +1,43 @@
+#sidebar {
+	--tw-translate-x: -100%;
+}
+
+#menu-close-icon {
+	display: none;
+}
+
+#menu-open:checked ~ #sidebar {
+	--tw-translate-x: 0;
+}
+#menu-open:checked ~ * #mobile-menu-button {
+	background-color: rgba(31, 41, 55, var(--tw-bg-opacity));
+}
+#menu-open:checked ~ * #menu-open-icon {
+	display: none;
+}
+#menu-open:checked ~ * #menu-close-icon {
+	display: block;
+}
+
+@media (min-width: 768px) {
+	#sidebar {
+		--tw-translate-x: 0;
+	}
+}
+
+.thick-border {
+	background: linear-gradient(#d9d5e7 0 0) left / var(--d, 0%) 100% no-repeat;
+	transition: 1s;
+	border-radius: 0 6px 6px 0;
+}
+
+.thick-border-active {
+	background: linear-gradient(#d9d5e7 0 0) left / var(--d, 100%) 100%
+		no-repeat;
+	transition: 1s;
+}
+
+.thick-border:hover {
+	--d: 100%;
+	color: #ffffff;
+}
