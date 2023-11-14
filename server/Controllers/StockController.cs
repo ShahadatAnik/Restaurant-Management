@@ -66,7 +66,7 @@ namespace server.Controllers
             if (res > -1)
             {
                 item.Id = (int)res;
-                return Ok(item);
+                return Ok(new { type = "create", message = "Insert successful", data = item });
             }
             return BadRequest();
         }
@@ -80,7 +80,7 @@ namespace server.Controllers
                               WHERE id = {id} ");
             if (res > -1)
             {
-                return Ok(new { message = "Update successful" });
+                return Ok(new { type = "update", message = "Update successful" });
             }
             return BadRequest();
         }
@@ -89,7 +89,7 @@ namespace server.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _server.Delete($@"DELETE FROM item WHERE id = {id}");
-            return Ok(new { message = "Delete successful" });
+            return Ok(new { type = "delete", message = "Delete successful" });
         }
     }
 }

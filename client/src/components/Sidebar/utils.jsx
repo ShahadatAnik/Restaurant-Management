@@ -78,7 +78,7 @@ const BrandLink = ({ ...props }) => {
 
 	return (
 		<NavLink to={go[0]?.path} {...props}>
-			FZL
+			Restaurant
 		</NavLink>
 	);
 };
@@ -101,7 +101,7 @@ const LogoutButton = memo(() => {
 			>
 				<LogoutIcon className="h-5 w-5" />
 				<span className="text-sm capitalize text-error-content">
-					{user?.department}
+					Logout
 				</span>
 			</NavLink>
 		</li>
@@ -112,21 +112,11 @@ const Sidebar = () => {
 	const { user } = useAuth();
 
 	function filterRoutes(type) {
-		return PROTECTED_ROUTES.filter(
-			(item) =>
-				item.type === type &&
-				!item?.hidden &&
-				item?.assigned?.includes(user?.department)
-		);
+		return PROTECTED_ROUTES.filter((item) => item.type === type);
 	}
 
 	const pages = {
-		report: filterRoutes("report"),
-		order: filterRoutes("order"),
-		issue: filterRoutes("issue"),
-		purchase: filterRoutes("purchase"),
-		material: filterRoutes("material"),
-		admin: filterRoutes("admin"),
+		item: filterRoutes("item"),
 	};
 
 	return (
@@ -145,7 +135,7 @@ const Sidebar = () => {
 								</li>
 							)
 					)}
-					<LogoutButton />
+					{/* <LogoutButton /> */}
 				</ul>
 			</div>
 		</div>
