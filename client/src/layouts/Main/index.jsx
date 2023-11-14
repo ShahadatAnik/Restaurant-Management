@@ -6,12 +6,10 @@ import { BrowserRouter, Routes } from "react-router-dom";
 const MainLayout = ({ children }) => {
 	return (
 		<BrowserRouter>
-			<AuthProvider>
-				<Sidebar>
-					<Routes>{children}</Routes>
-				</Sidebar>
-				<Toast />
-			</AuthProvider>
+			<Sidebar>
+				<Routes>{children}</Routes>
+			</Sidebar>
+			<Toast />
 		</BrowserRouter>
 	);
 };

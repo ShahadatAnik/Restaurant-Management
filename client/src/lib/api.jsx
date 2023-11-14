@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import { BASE_API } from "./secret";
 
 export const api = axios.create({
@@ -11,14 +10,10 @@ export const api = axios.create({
 
 api.interceptors.request.use(
 	async (config) => {
-		const token = Cookies?.get("auth");
+		config.headers = {
+			...config.headers,
+		};
 
-		if (token) {
-			config.headers = {
-				...config.headers,
-				Authorization: token,
-			};
-		}
 		return config;
 	},
 	(error) => {

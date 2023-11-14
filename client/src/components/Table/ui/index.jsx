@@ -1,6 +1,5 @@
 import { ArrowUpDown, Up } from "@icons";
 import ExportCSV from "./CSV";
-import DateRange from "./DateRange";
 import DebouncedInput from "./DebouncedInput";
 import DropdownMenu from "./DropdownMenu";
 import {
@@ -10,9 +9,7 @@ import {
 	fuzzySort,
 	isWithinRange,
 } from "./Filter";
-import MultiDateRange from "./MultiDateRange";
 import NoDataFound from "./NoDataFound";
-import SingleDateRange from "./SingleDateRange";
 import Title, { AddButton, TitleOnly } from "./Title";
 
 const SortingIndicator = ({ type, canSort }) => {
@@ -58,17 +55,14 @@ const PaginationButton = ({ onClick, disabled, icon }) => {
 
 export {
 	AddButton,
-	DateRange,
 	DebouncedInput,
 	DropdownMenu,
 	ExportCSV,
 	FilterColumn,
 	FilterColumnValue,
 	FuzzyFilter,
-	MultiDateRange,
 	NoDataFound,
 	PaginationButton,
-	SingleDateRange,
 	SortingIndicator,
 	Title,
 	TitleOnly,

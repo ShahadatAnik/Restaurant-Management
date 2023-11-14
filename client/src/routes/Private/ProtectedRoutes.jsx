@@ -9,21 +9,11 @@ export default function ProtectedRoutes() {
 	if (loading)
 		return <span className="loading loading-dots loading-lg z-50" />;
 
-	if (!signed) return <Navigate to="/login" replace={true} />;
+	// if (!signed) return <Navigate to="/login" replace={true} />;
 
-	const haveAccess = PROTECTED_ROUTES?.find(
-		(route) => route?.path === location?.pathname
-	)?.assigned?.includes(user?.department);
+	const haveAccess = true;
 
-	const adminAccess =
-		["update"].some((path) => location?.pathname?.includes(path)) &&
-		user?.department === "admin";
-
-	const specialAccess = ["details"].some((path) =>
-		location?.pathname?.includes(path)
-	);
-
-	return haveAccess || adminAccess || specialAccess ? (
+	return haveAccess ? (
 		<Outlet />
 	) : (
 		<Navigate to="/no-access" replace={true} />

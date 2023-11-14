@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-	DateRange,
-	DebouncedInput,
-	ExportCSV,
-	FilterColumn,
-	MultiDateRange,
-	SingleDateRange,
-	Title,
-} from "./ui";
+import { DebouncedInput, ExportCSV, FilterColumn, Title } from "./ui";
 
 export default function Index({
 	title,
@@ -22,18 +14,7 @@ export default function Index({
 	select,
 	showColumns,
 	filteredRows,
-	getHeaderGroups,
-	getPreFilteredRowModel,
-	hasAnyRow,
 	pdfButton,
-	date,
-	setDate,
-	showSingleDateRange,
-	fromDate,
-	toDate,
-	setFromDate,
-	setToDate,
-	multiDateRange,
 }) {
 	const [open, setOpen] = useState({
 		columns: false,
@@ -68,41 +49,10 @@ export default function Index({
 								setOpen={setOpen}
 							/>
 						)}
-						{hasAnyRow && showDateRange && (
-							<DateRange
-								open={open.dateRange}
-								{...{
-									getHeaderGroups,
-									getPreFilteredRowModel,
-									setOpen,
-								}}
-							/>
-						)}
+
 						{select}
 						{extraButton}
 
-						{showSingleDateRange && (
-							<SingleDateRange
-								open={open.singleDateRange}
-								{...{
-									date,
-									setDate,
-									setOpen,
-								}}
-							/>
-						)}
-						{multiDateRange && (
-							<MultiDateRange
-								open={open.multiDateRange}
-								{...{
-									fromDate,
-									toDate,
-									setFromDate,
-									setToDate,
-									setOpen,
-								}}
-							/>
-						)}
 						<ExportCSV
 							{...{ getAllLeafColumns, filteredRows, title }}
 						/>

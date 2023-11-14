@@ -1,8 +1,7 @@
 import { lazy } from "react";
 
 // Pages
-// Admin
-
+const Stock = lazy(() => import("@pages/Private/Item/Stock"));
 
 // assign roles: "admin", "viewer", "manager", "store", "ppc", "procurement", "spare-parts"
 const PROTECTED_ROUTES = [
@@ -17,4 +16,3 @@ const PROTECTED_ROUTES = [
 ];
 
 export { PROTECTED_ROUTES };
-

@@ -21,11 +21,11 @@ class PageInfo {
 	}
 
 	getFetchUrl() {
-		return `/get/${this.getUrl()}`;
+		return `/api/${this.getUrl()}`;
 	}
 
 	getDeleteUrl() {
-		return `/delete/${this.getUrl()}`;
+		return `/api/${this.getUrl()}`;
 	}
 }
 

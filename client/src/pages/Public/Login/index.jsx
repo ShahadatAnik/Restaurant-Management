@@ -13,11 +13,11 @@ export default function Index() {
 		admin: "/user",
 	};
 
-	useEffect(() => {
-		if (signed) {
-			navigate(NAVIGATE_TO[user?.department]);
-		}
-	}, [signed, user, navigate]);
+	// useEffect(() => {
+	// 	if (signed) {
+	// 		navigate(NAVIGATE_TO[user?.department]);
+	// 	}
+	// }, [signed, user, navigate]);
 
 	const { register, handleSubmit, errors } = useRHF(LOGIN_SCHEMA, LOGIN_NULL);
 
