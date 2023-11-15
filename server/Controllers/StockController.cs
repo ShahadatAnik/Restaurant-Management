@@ -47,6 +47,19 @@ namespace server.Controllers
         [HttpGet("{id}")]
         public Task<IActionResult> Get(int id) => GetAllItem("SELECT * FROM item WHERE id = @id", CreateParameter("@id", id));
 
+        // i want api url like this: api/stock/label/value
+        [HttpGet("label/value")]
+        public Task<IActionResult> GetLabelValue()
+        {
+            return GetAllItem(@"SELECT 
+                                    id as value,
+                                    name as label
+                                FROM
+                                    item 
+                                ORDER BY
+                                    name ASC");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(Stock item)
         {

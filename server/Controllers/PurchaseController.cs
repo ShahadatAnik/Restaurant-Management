@@ -30,7 +30,6 @@ namespace server.Controllers
                         ItemName = reader.GetString("item_name"),
                         Price = reader.GetDecimal("price"),
                         Quantity = reader.GetInt32("quantity"),
-                        Date = reader.GetDateTime("date")
                     };
                     items.Add(item);
                 }
@@ -79,6 +78,8 @@ namespace server.Controllers
                                 WHERE
                                     p.id = @id", new MySqlParameter("@id", id));
         }
+
+        
 
         [HttpPost]
         public async Task<IActionResult> Post(Purchase item)
