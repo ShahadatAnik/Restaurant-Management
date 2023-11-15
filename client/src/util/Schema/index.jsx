@@ -51,11 +51,11 @@ const MARKETING_NULL = {
 // Material
 const STOCK_SCHEMA = {
 	name: STRING_REQUIRED,
-	description: STRING.nullable(),
+	description: STRING,
 };
 
 const STOCK_NULL = {
-	id: null,
+	id: -1,
 	name: "",
 	quantity: "",
 	description: "",

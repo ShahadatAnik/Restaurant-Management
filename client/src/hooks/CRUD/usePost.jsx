@@ -9,11 +9,10 @@ async function usePostFunc({
 }) {
 	try {
 		const response = await api.post(uri, data);
-		// console.log("response", response);
+		console.log("response", response);
 
 		setItems((prev) => [
 			{
-				id: response?.data?.id,
 				...data,
 			},
 			...prev,
