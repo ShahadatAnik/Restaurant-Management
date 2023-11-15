@@ -56,7 +56,7 @@ namespace server.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Stock item)
         {
-            var res = await _server.Insert($@"INSERT INTO item (
+            var res = await _server.Insert(@"INSERT INTO item (
                                 name, 
                                 description)
                               VALUES (

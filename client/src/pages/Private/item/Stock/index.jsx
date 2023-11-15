@@ -10,7 +10,6 @@ const AddOrUpdate = lazy(() => import("./AddOrUpdate"));
 const DeleteModal = lazy(() => import("@components/Modal/Delete"));
 
 export default function Index() {
-	const { STOCK_EDIT_ACCESS } = useHaveAccess();
 	const info = new PageInfo("Stock", "stock");
 	const [stock, setStock] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -41,7 +40,6 @@ export default function Index() {
 				header: "Actions",
 				enableColumnFilter: false,
 				enableSorting: false,
-				hidden: !STOCK_EDIT_ACCESS,
 				width: "w-24",
 				cell: (info) => {
 					return (
@@ -104,7 +102,7 @@ export default function Index() {
 			<ReactTable
 				title={info.getTitle()}
 				handelAdd={handelAdd}
-				accessor={STOCK_EDIT_ACCESS}
+				accessor={true}
 				data={stock} // change
 				columns={columns}
 				extraClass={"py-2"}

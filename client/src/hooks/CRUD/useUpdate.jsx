@@ -22,6 +22,7 @@ async function useUpdateFunc({
 					: item;
 			})
 		);
+		console.log("response", response);
 
 		ShowToast(response);
 	} catch (error) {

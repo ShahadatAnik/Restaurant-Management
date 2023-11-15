@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
+using server.Models;
 
 namespace server.DB
 {
@@ -10,7 +11,6 @@ namespace server.DB
         private MySqlConnection conn;
         private MySqlCommand command;
 
-        // i want to make pair where the key is the type of the operation and the value is the message
         private readonly List<KeyValuePair<string, string>> messages = new()
         {
             new("create", "Create successful"),
@@ -18,18 +18,10 @@ namespace server.DB
             new("delete", "Delete successful"),
         };
 
-
         public Service()
         {
             conn = new MySqlConnection(sqlString);
         }
-
-        public class OperationResult
-        {
-            public string type { get; set; }
-            public string message { get; set; }
-        }
-
 
         private async Task OpenAsync()
         {

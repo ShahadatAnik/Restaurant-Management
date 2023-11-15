@@ -83,7 +83,7 @@ namespace server.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Purchase item)
         {
-            var res = await _server.Insert($@"INSERT INTO purchase (
+            var res = await _server.Insert(@"INSERT INTO purchase (
                                 item_id,
                                 price,
                                 quantity

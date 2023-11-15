@@ -26,7 +26,7 @@ export default function Index({
 
 	const onSubmit = async () => {
 		await useDeleteFunc({
-			uri: `${uri}/${deleteItem?.itemId}/${deleteItem?.itemName}`,
+			uri: `${uri}/${deleteItem?.itemId}`,
 			itemId: deleteItem?.itemId,
 			setItems,
 			onClose: handelClose,

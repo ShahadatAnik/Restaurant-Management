@@ -49,24 +49,16 @@ const MARKETING_NULL = {
 };
 
 // Material
-const MATERIAL_SCHEMA = {
+const STOCK_SCHEMA = {
 	name: STRING_REQUIRED,
-	unit: STRING_REQUIRED,
-	short_name: STRING,
-	threshold: NUMBER_DOUBLE,
 	description: STRING.nullable(),
 };
 
-const MATERIAL_NULL = {
+const STOCK_NULL = {
 	id: null,
 	name: "",
-	short_name: "",
 	quantity: "",
-	unit: "",
-	threshold: 0,
 	description: "",
-	category_id: null,
-	type_id: null,
 };
 
 // Purchase
@@ -305,8 +297,6 @@ export {
 	MARKETING_SCHEMA,
 	MATERIAL_ENTRY_NULL,
 	MATERIAL_ENTRY_SCHEMA,
-	MATERIAL_NULL,
-	MATERIAL_SCHEMA,
 	ORDER_ISSUE_NULL,
 	ORDER_ISSUE_SCHEMA,
 	ORDER_NULL,
@@ -317,6 +307,8 @@ export {
 	RECEIVED_SCHEMA,
 	SPARE_PARTS_NULL,
 	SPARE_PARTS_SCHEMA,
+	STOCK_NULL,
+	STOCK_SCHEMA,
 	USER_NULL,
 	USER_SCHEMA,
 	VENDOR_NULL,
