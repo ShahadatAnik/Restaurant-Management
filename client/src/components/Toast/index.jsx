@@ -33,7 +33,7 @@ const ShowToastMain = ({ type, message }) => {
 
 const ShowToast = (toast) => {
 	// console.log("toast", toast?.data);
-	const { type, message } = toast?.data;
+	const { type, message } = toast?.data?.value;
 	ShowToastMain({ ...{ type, message } });
 };
 

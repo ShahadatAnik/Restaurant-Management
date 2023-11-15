@@ -2,7 +2,6 @@
 using server.DB;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-using System.Threading.Tasks;
 
 namespace server.Controllers
 {
@@ -10,9 +9,9 @@ namespace server.Controllers
     [Route("api/stock")]
     public class StockController : ControllerBase
     {
-        private readonly MysqlDb _server;
+        private readonly Service _server;
 
-        public StockController(MysqlDb server)
+        public StockController(Service server)
         {
             _server = server;
         }

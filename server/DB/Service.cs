@@ -1,15 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using server.Models;
-using server.DB;
-using System.Threading.Tasks;
-
 
 namespace server.DB
 {
-    public class MysqlDb : IDisposable
+    public class Service : IDisposable
     {
         private readonly string sqlString = "server=localhost;user=root;database=restaurant_db;port=3306;password=";
         private MySqlConnection conn;
@@ -24,7 +19,7 @@ namespace server.DB
         };
 
 
-        public MysqlDb()
+        public Service()
         {
             conn = new MySqlConnection(sqlString);
         }

@@ -121,7 +121,7 @@ const Sidebar = () => {
 
 	return (
 		<div className="min-h-full bg-primary">
-			<BrandLink className="flex items-center justify-center py-1 font-mono text-2xl font-bold text-primary-content md:text-4xl" />
+			<BrandLink className="flex items-center justify-center p-1 font-mono text-2xl font-bold text-primary-content md:text-4xl" />
 			<hr className="my-2 border-primary-content border-opacity-90" />
 			<div className="flex flex-col overflow-auto px-4">
 				<ul className="my-2 flex-1 space-y-6 text-sm font-medium">
