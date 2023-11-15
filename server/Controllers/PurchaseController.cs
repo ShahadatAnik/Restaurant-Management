@@ -17,10 +17,10 @@ namespace server.Controllers
             _server = server;
         }
 
-        private async Task<IActionResult> GetAllItem(string sql)
+        private async Task<IActionResult> GetAllItem(string sql, params MySqlParameter[]? parameters)
         {
             var items = new List<Purchase>();
-            using (var reader = await _server.Select(sql))
+            using (var reader = await _server.Select(sql, parameters))
             {
                 while (reader.Read())
                 {
@@ -43,6 +43,7 @@ namespace server.Controllers
             }
             return NotFound();
         }
+
 
         [HttpGet]
         public Task<IActionResult> Get()
@@ -77,7 +78,7 @@ namespace server.Controllers
                                     item i
                                     ON p.item_id = i.id
                                 WHERE
-                                    p.id = {id}");
+                                    p.id = @id", new MySqlParameter("@id", id));
         }
 
         [HttpPost]
@@ -88,36 +89,34 @@ namespace server.Controllers
                                 price,
                                 quantity
                                 ) VALUES (
-                                {item.ItemId},
-                                {item.Price},
-                                {item.Quantity})");
-            if (res > -1)
-            {
-                item.Id = (int)res;
-                return Ok(new { type = "create", message = "Insert successful", data = item });
-            }
-            return BadRequest();
+                                @item_id,
+                                @price,
+                                @quantity
+                                )",
+                                new MySqlParameter("@item_id", item.ItemId),
+                                new MySqlParameter("@price", item.Price),
+                                new MySqlParameter("@quantity", item.Quantity));
+            return Ok(res);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Purchase item)
         {
             var res = await _server.Update($@"UPDATE purchase SET 
-                                    price = {item.Price},
-                                    quantity = {item.Quantity}
-                                    WHERE id = {id} ");
-            if (res > -1)
-            {
-                return Ok(new { type = "update", message = "Update successful" });
-            }
-            return BadRequest();
+                                    price = @price,
+                                    quantity = @quantity
+                                    WHERE id = @id",
+                                    new MySqlParameter("@price", item.Price),
+                                    new MySqlParameter("@quantity", item.Quantity),
+                                    new MySqlParameter("@id", id));
+            return Ok(res);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _server.Delete($@"DELETE FROM purchase WHERE id = {id}");
-            return Ok(new { type = "delete", message = "Delete successful" });
+            var res = await _server.Delete($@"DELETE FROM purchase WHERE id = @id", new MySqlParameter("@id", id));
+            return Ok(res);
         }
     }
 }

@@ -1,77 +1,130 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using server.Models;
+using server.DB;
+using System.Threading.Tasks;
+
 
 namespace server.DB
 {
     public class MysqlDb : IDisposable
     {
         private readonly string sqlString = "server=localhost;user=root;database=restaurant_db;port=3306;password=";
-        private MySqlConnection mySqlConnection;
-        private MySqlCommand mySqlCommand;
+        private MySqlConnection conn;
+        private MySqlCommand command;
+
+        // i want to make pair where the key is the type of the operation and the value is the message
+        private readonly List<KeyValuePair<string, string>> messages = new()
+        {
+            new("create", "Create successful"),
+            new("update", "Update successful"),
+            new("delete", "Delete successful"),
+        };
+
 
         public MysqlDb()
         {
-            mySqlConnection = new MySqlConnection(sqlString);
+            conn = new MySqlConnection(sqlString);
         }
+
+        public class OperationResult
+        {
+            public string type { get; set; }
+            public string message { get; set; }
+        }
+
 
         private async Task OpenAsync()
         {
-            if (mySqlConnection.State != ConnectionState.Open)
-                await mySqlConnection.OpenAsync();
+            if (conn.State != ConnectionState.Open)
+                await conn.OpenAsync();
         }
 
         private async Task CloseAsync()
         {
-            if (mySqlConnection.State != ConnectionState.Closed)
-                await mySqlConnection.CloseAsync();
+            if (conn.State != ConnectionState.Closed)
+                await conn.CloseAsync();
         }
 
-        public async Task<MySqlDataReader> Select(string sql)
+        public MySqlCommand GetCommand(string sql, params MySqlParameter[] parameters)
         {
-            await OpenAsync();
-            mySqlCommand = new MySqlCommand(sql, mySqlConnection);
-            return await mySqlCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+            command = new MySqlCommand(sql, conn);
+            if (parameters != null)
+            {
+                foreach (var parameter in parameters)
+                {
+                    command.Parameters.Add(parameter);
+                }
+            }
+            return command;
         }
 
-        public async Task<long> Insert(string sql)
+        public async Task<OperationResult> DefaultQuery(string sql, string type, params MySqlParameter[] parameters)
         {
             await OpenAsync();
-            mySqlCommand = new MySqlCommand(sql, mySqlConnection);
-            await mySqlCommand.ExecuteNonQueryAsync();
-            long id = mySqlCommand.LastInsertedId;
-            await CloseAsync();
-            return id;
+            command = GetCommand(sql, parameters);
+            try
+            {
+                await command.ExecuteNonQueryAsync();
+                await CloseAsync();
+                return new OperationResult { type = type, message = messages.Find(x => x.Key == type).Value };
+            }
+            catch (MySqlException e)
+            {
+                await CloseAsync();
+                return new OperationResult { type = "error", message = e.Message };
+            }
         }
 
-        public async Task<int> Update(string sql)
+
+        public async Task<MySqlDataReader> Select(string sql, params MySqlParameter[] parameters)
         {
             await OpenAsync();
-            mySqlCommand = new MySqlCommand(sql, mySqlConnection);
-            int affectedRows = await mySqlCommand.ExecuteNonQueryAsync();
-            await CloseAsync();
-            return affectedRows;
+            command = GetCommand(sql, parameters);
+            return await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
         }
 
-        public async Task<int> Delete(string sql)
+        public async Task<IActionResult> Insert(string sql, params MySqlParameter[] parameters)
         {
-            await OpenAsync();
-            mySqlCommand = new MySqlCommand(sql, mySqlConnection);
-            int affectedRows = await mySqlCommand.ExecuteNonQueryAsync();
-            await CloseAsync();
-            return affectedRows;
+            var result = await DefaultQuery(type: "create", sql: sql, parameters: parameters);
+            if (result.type == "create")
+                return new OkObjectResult(result);
+
+            return new BadRequestObjectResult(result);
+        }
+
+
+
+        public async Task<IActionResult> Update(string sql, params MySqlParameter[] parameters)
+        {
+            var result = await DefaultQuery(type: "update", sql: sql, parameters: parameters);
+            if (result.type == "update")
+                return new OkObjectResult(result);
+
+            return new BadRequestObjectResult(result);
+        }
+
+        public async Task<IActionResult> Delete(string sql, params MySqlParameter[] parameters)
+        {
+            var result = await DefaultQuery(type: "delete", sql: sql, parameters: parameters);
+            if (result.type == "delete")
+                return new OkObjectResult(result);
+
+            return new BadRequestObjectResult(result);
         }
 
         public void Dispose()
         {
-            mySqlConnection.Close();
-            mySqlConnection.Dispose();
+            conn.Close();
+            conn.Dispose();
         }
 
         public async ValueTask DisposeAsync()
         {
-            await mySqlConnection.CloseAsync();
-            await mySqlConnection.DisposeAsync();
+            await conn.CloseAsync();
+            await conn.DisposeAsync();
         }
     }
 }
