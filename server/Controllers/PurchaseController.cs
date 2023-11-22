@@ -77,7 +77,25 @@ namespace server.Controllers
                                     p.id = @id;", new MySqlParameter("@id", id));
         }
 
-        
+        [HttpGet("by/{itemId}")]
+        public Task<IActionResult> GetPurchaseByItem(int itemId)
+        {
+            return GetAllItem($@"SELECT 
+                                    p.id as id,
+                                    p.itemId as itemId,
+                                    s.name as itemName,
+                                    p.price as price,
+                                    p.quantity as quantity
+                                FROM 
+                                    purchase p
+                                    INNER JOIN
+                                    stock s
+                                    ON p.itemId = s.id
+                                WHERE
+                                    p.itemId = @itemId;", new MySqlParameter("@itemId", itemId));
+        }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Post(Purchase item)

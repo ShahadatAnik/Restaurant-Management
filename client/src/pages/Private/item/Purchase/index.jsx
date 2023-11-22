@@ -2,14 +2,19 @@ import { Suspense } from "@/components/Feedback";
 import PageInfo from "@/util/PageInfo";
 import ReactTable from "@components/Table";
 import { useFetchFunc } from "@hooks";
-import { EditDelete } from "@ui";
+import { EditDelete, IdLink } from "@ui";
 import { lazy, useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const AddOrUpdate = lazy(() => import("./AddOrUpdate"));
 const DeleteModal = lazy(() => import("@components/Modal/Delete"));
 
 export default function Index() {
-	const info = new PageInfo("Purchase", "purchase");
+	const { itemId } = useParams();
+	const info = new PageInfo(
+		"Purchase",
+		itemId !== undefined ? `purchase/by/${itemId}` : "purchase"
+	);
 	const [purchase, setPurchase] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -20,7 +25,13 @@ export default function Index() {
 				accessorKey: "itemName",
 				header: "Name",
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => (
+					<IdLink
+						id={info.row.original.itemId}
+						label={info.getValue()}
+						uri="/item/purchase"
+					/>
+				),
 			},
 			{
 				accessorKey: "quantity",

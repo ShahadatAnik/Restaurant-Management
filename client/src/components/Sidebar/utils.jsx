@@ -109,10 +109,10 @@ const LogoutButton = memo(() => {
 });
 
 const Sidebar = () => {
-	const { user } = useAuth();
-
 	function filterRoutes(type) {
-		return PROTECTED_ROUTES.filter((item) => item.type === type);
+		return PROTECTED_ROUTES.filter(
+			(item) => item.type === type && !item.hidden
+		);
 	}
 
 	const pages = {

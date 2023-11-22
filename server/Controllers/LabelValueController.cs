@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 
 namespace server.Controllers
 {
-    [ApiController]
+    [ApiController] 
     [Route("api")]
     public class LabelValueController : ControllerBase
     {

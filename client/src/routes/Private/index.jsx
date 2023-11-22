@@ -22,6 +22,15 @@ const PROTECTED_ROUTES = [
 		assigned: ["admin", "viewer", "manager", "store", "ppc", "procurement"], // edit: admin, store
 		type: "item",
 	},
+	{
+		id: 21,
+		name: "Purchase",
+		path: "/item/purchase/:itemId",
+		element: Purchase,
+		assigned: ["admin", "viewer", "manager", "store", "ppc", "procurement"], // edit: admin, store
+		type: "item",
+		hidden: true,
+	},
 ];
 
 export { PROTECTED_ROUTES };
