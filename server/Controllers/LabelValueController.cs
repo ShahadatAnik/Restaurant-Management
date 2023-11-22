@@ -46,16 +46,16 @@ namespace server.Controllers
         }
 
 
-        [HttpGet("item/label/value")]
+        [HttpGet("stock/label/value")]
         public Task<IActionResult> GetLabelValue()
         {
             return GetAllItem(@"SELECT 
                                     id as value,
                                     name as label
                                 FROM
-                                    item 
+                                    stock 
                                 ORDER BY
-                                    name ASC");
+                                    name ASC;");
         }
 
 

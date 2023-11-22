@@ -29,10 +29,10 @@ namespace server.Controllers
                 {
                     var item = new Stock
                     {
-                        Id = reader.GetInt32(nameof(Stock.Id)),
-                        Name = reader.GetString(nameof(Stock.Name)),
-                        Quantity = reader.GetInt32(nameof(Stock.Quantity)),
-                        Description = reader.GetString(nameof(Stock.Description))
+                        Id = reader.GetInt32("id"),
+                        Name = reader.GetString("name"),
+                        Quantity = reader.GetInt32("quantity"),
+                        Description = reader.GetString("description"),
                     };
                     items.Add(item);
                 }
@@ -42,28 +42,15 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public Task<IActionResult> Get() => GetAllItem("SELECT * FROM item");
+        public Task<IActionResult> Get() => GetAllItem("SELECT * FROM stock;");
 
         [HttpGet("{id}")]
-        public Task<IActionResult> Get(int id) => GetAllItem("SELECT * FROM item WHERE id = @id", CreateParameter("@id", id));
-
-        // i want api url like this: api/stock/label/value
-        [HttpGet("label/value")]
-        public Task<IActionResult> GetLabelValue()
-        {
-            return GetAllItem(@"SELECT 
-                                    id as value,
-                                    name as label
-                                FROM
-                                    item 
-                                ORDER BY
-                                    name ASC");
-        }
+        public Task<IActionResult> Get(int id) => GetAllItem("SELECT * FROM stock WHERE id = @id;", CreateParameter("@id", id));
 
         [HttpPost]
         public async Task<IActionResult> Post(Stock item)
         {
-            var res = await _server.Insert(@"INSERT INTO item (name, description) VALUES (@name, @description)",
+            var res = await _server.Insert(@"INSERT INTO stock (name, description) VALUES (@name, @description);",
                                             CreateParameter("@name", item.Name),
                                             CreateParameter("@description", item.Description));
             return Ok(res);
@@ -72,7 +59,7 @@ namespace server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Stock item)
         {
-            var res = await _server.Update(@"UPDATE item SET name = @name, description = @description WHERE id = @id",
+            var res = await _server.Update(@"UPDATE stock SET name = @name, description = @description WHERE id = @id;",
                                             CreateParameter("@name", item.Name),
                                             CreateParameter("@description", item.Description),
                                             CreateParameter("@id", id));
@@ -82,7 +69,7 @@ namespace server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var res = await _server.Delete("DELETE FROM item WHERE id = @id", CreateParameter("@id", id));
+            var res = await _server.Delete("DELETE FROM stock WHERE id = @id;", CreateParameter("@id", id));
             return Ok(res);
         }
     }

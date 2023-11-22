@@ -26,7 +26,8 @@ export default function Index({
 		updatePurchase?.id,
 		reset
 	);
-	const { value: item } = useFetch("/item/label/value");
+	const { value: item } = useFetch("/stock/label/value");
+	console.log("item", item);
 
 	const onClose = () => {
 		setUpdatePurchase((prev) => ({

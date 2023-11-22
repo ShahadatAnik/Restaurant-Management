@@ -88,7 +88,7 @@ export default function Index() {
 		setDeleteItem((prev) => ({
 			...prev,
 			itemId: purchase[idx].id,
-			itemName: purchase[idx].name,
+			itemName: purchase[idx].itemName,
 		}));
 
 		window[info.getDeleteModalId()].showModal();

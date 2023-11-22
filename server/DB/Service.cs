@@ -7,7 +7,7 @@ namespace server.DB
 {
     public class Service : IDisposable
     {
-        private readonly string sqlString = "server=localhost;user=root;database=restaurant_db;port=3306;password=";
+        private readonly string sqlString = "server=localhost;user=root;database=restaurant_management;port=3306;password=";
         private MySqlConnection conn;
         private MySqlCommand command;
 

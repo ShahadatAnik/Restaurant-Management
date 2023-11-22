@@ -26,8 +26,8 @@ namespace server.Controllers
                     var item = new Purchase
                     {
                         Id = reader.GetInt32("id"),
-                        ItemId = reader.GetInt32("item_id"),
-                        ItemName = reader.GetString("item_name"),
+                        ItemId = reader.GetInt32("itemId"),
+                        ItemName = reader.GetString("itemName"),
                         Price = reader.GetDecimal("price"),
                         Quantity = reader.GetInt32("quantity"),
                     };
@@ -48,16 +48,15 @@ namespace server.Controllers
         {
             return GetAllItem(@"SELECT 
                                     p.id as id,
-                                    i.id as item_id,
-                                    i.name as item_name,
+                                    s.id as itemId,
+                                    s.name as itemName,
                                     p.price as price,
-                                    p.quantity as quantity,
-                                    p.date as date
+                                    p.quantity as quantity
                                 FROM 
                                     purchase p
                                     INNER JOIN
-                                    item i
-                                    ON p.item_id = i.id");
+                                    stock s
+                                    ON p.itemId = s.id;");
         }
 
         [HttpGet("{id}")]
@@ -65,18 +64,17 @@ namespace server.Controllers
         {
             return GetAllItem($@"SELECT 
                                     p.id as id,
-                                    i.id as item_id,
-                                    i.name as item_name,
+                                    s.id as itemId,
+                                    s.name as itemName,
                                     p.price as price,
-                                    p.quantity as quantity,
-                                    p.date as date
+                                    p.quantity as quantity
                                 FROM 
                                     purchase p
                                     INNER JOIN
-                                    item i
-                                    ON p.item_id = i.id
+                                    stock s
+                                    ON p.itemId = s.id
                                 WHERE
-                                    p.id = @id", new MySqlParameter("@id", id));
+                                    p.id = @id;", new MySqlParameter("@id", id));
         }
 
         
@@ -85,15 +83,15 @@ namespace server.Controllers
         public async Task<IActionResult> Post(Purchase item)
         {
             var res = await _server.Insert(@"INSERT INTO purchase (
-                                item_id,
-                                price,
-                                quantity
+                                    itemId,
+                                    price,
+                                    quantity
                                 ) VALUES (
-                                @item_id,
-                                @price,
-                                @quantity
-                                )",
-                                new MySqlParameter("@item_id", item.ItemId),
+                                    @itemId,
+                                    @price,
+                                    @quantity
+                                );",
+                                new MySqlParameter("@itemId", item.ItemId),
                                 new MySqlParameter("@price", item.Price),
                                 new MySqlParameter("@quantity", item.Quantity));
             return Ok(res);
@@ -105,7 +103,7 @@ namespace server.Controllers
             var res = await _server.Update($@"UPDATE purchase SET 
                                     price = @price,
                                     quantity = @quantity
-                                    WHERE id = @id",
+                                    WHERE id = @id;",
                                     new MySqlParameter("@price", item.Price),
                                     new MySqlParameter("@quantity", item.Quantity),
                                     new MySqlParameter("@id", id));
@@ -115,7 +113,7 @@ namespace server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var res = await _server.Delete($@"DELETE FROM purchase WHERE id = @id", new MySqlParameter("@id", id));
+            var res = await _server.Delete($@"DELETE FROM purchase WHERE id = @id;", new MySqlParameter("@id", id));
             return Ok(res);
         }
     }
